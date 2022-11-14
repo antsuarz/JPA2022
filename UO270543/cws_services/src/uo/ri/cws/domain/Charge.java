@@ -5,7 +5,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import uo.ri.cws.domain.Invoice.InvoiceStatus;
+import uo.ri.cws.domain.Invoice.InvoiceState;
 import uo.ri.cws.domain.base.BaseEntity;
 
 @Entity
@@ -34,7 +34,7 @@ public class Charge extends BaseEntity{
 	 * @throws IllegalStateException if the invoice is already settled
 	 */
 	public void rewind() {
-		if(invoice.getState().equals(InvoiceStatus.PAID)){
+		if(invoice.getState().equals(InvoiceState.PAID)){
 			throw new IllegalStateException();
 		}
 		paymentMean.pay(- amount); 

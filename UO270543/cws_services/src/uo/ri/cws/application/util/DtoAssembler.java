@@ -8,12 +8,12 @@ import uo.ri.cws.application.service.client.ClientCrudService.ClientDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.CardDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.CashDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.InvoiceDto;
+import uo.ri.cws.application.service.invoice.InvoicingService.InvoicingWorkOrderDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.PaymentMeanDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.VoucherDto;
 import uo.ri.cws.application.service.mechanic.MechanicCrudService.MechanicDto;
 import uo.ri.cws.application.service.vehicle.VehicleCrudService.VehicleDto;
 import uo.ri.cws.application.service.vehicletype.VehicleTypeCrudService.VehicleTypeDto;
-import uo.ri.cws.application.service.workorder.WorkOrderCrudService.WorkOrderDto;
 import uo.ri.cws.domain.Cash;
 import uo.ri.cws.domain.Client;
 import uo.ri.cws.domain.CreditCard;
@@ -145,22 +145,6 @@ public class DtoAssembler {
 		}
 	}
 
-	public static WorkOrderDto toDto(WorkOrder a) {
-		WorkOrderDto dto = new WorkOrderDto();
-		dto.id = a.getId();
-		dto.version = a.getVersion();
-
-		dto.vehicleId = a.getVehicle().getId();
-		dto.description = a.getDescription();
-		dto.date = a.getDate();
-		dto.total = a.getAmount();
-		dto.state = a.getState().toString();
-
-		dto.invoiceId = a.getInvoice() == null ? null : a.getInvoice().getId();
-
-		return dto;
-	}
-
 	public static VehicleDto toDto(Vehicle v) {
 		VehicleDto dto = new VehicleDto();
 		dto.id = v.getId();
@@ -173,12 +157,6 @@ public class DtoAssembler {
 		dto.model = v.getModel();
 
 		return dto;
-	}
-
-	public static List<WorkOrderDto> toWorkOrderDtoList(List<WorkOrder> list) {
-		return list.stream()
-				.map( a -> toDto( a ) )
-				.collect( Collectors.toList() );
 	}
 
 	public static VehicleTypeDto toDto(VehicleType vt) {
@@ -200,4 +178,27 @@ public class DtoAssembler {
 				.collect( Collectors.toList() );
 	}
 
+	public static InvoicingWorkOrderDto toDto(WorkOrder a) {
+		InvoicingWorkOrderDto dto = new InvoicingWorkOrderDto();
+		dto.id = a.getId();
+
+		dto.description = a.getDescription();
+		dto.date = a.getDate();
+		dto.total = a.getAmount();
+		dto.state = a.getState().toString();
+
+		return dto;
+	    }
+
+	    public static List<InvoicingWorkOrderDto> toWorkOrderDtoList(List<WorkOrder> list) {
+		return list.stream().map(a -> toDto(a)).collect(Collectors.toList());
+	    }
+
+
+	    public static List<InvoicingWorkOrderDto> toWorkOrderForInvoicingDtoList(List<WorkOrder> list) {
+		List<InvoicingWorkOrderDto> result = new ArrayList<InvoicingWorkOrderDto>();
+		for (WorkOrder w : list)
+		    result.add(toDto(w));
+		return result;
+	    }
 }

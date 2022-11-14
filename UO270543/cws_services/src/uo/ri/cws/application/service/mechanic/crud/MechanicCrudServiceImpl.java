@@ -40,4 +40,22 @@ public class MechanicCrudServiceImpl implements MechanicCrudService {
 		return new FindMechanicById(id).execute();
 	}
 
+	@Override
+	public List<MechanicDto> findMechanicsInForce() throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MechanicDto> findMechanicsWithContractInForceInContractType(String name) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MechanicDto> findMechanicsInProfessionalGroups(String name) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

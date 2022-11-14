@@ -21,7 +21,7 @@ import uo.ri.util.math.Round;
 @Entity
 @Table(name = "TInvoices")
 public class Invoice extends BaseEntity{
-	public enum InvoiceStatus { NOT_YET_PAID, PAID }
+	public enum InvoiceState { NOT_YET_PAID, PAID }
 
 	// natural attributes
 	@Column(unique = true)
@@ -32,7 +32,7 @@ public class Invoice extends BaseEntity{
 	private double vat;
 	
 	@Enumerated(EnumType.STRING)
-	private InvoiceStatus state = InvoiceStatus.NOT_YET_PAID;
+	private InvoiceState state = InvoiceState.NOT_YET_PAID;
 
 	// accidental attributes
 	@OneToMany(mappedBy = "invoice")
@@ -99,7 +99,7 @@ public class Invoice extends BaseEntity{
 	 * @throws IllegalStateException if the invoice status is not NOT_YET_PAID
 	 */
 	public void addWorkOrder(WorkOrder workOrder) {
-		if(!getState().equals(InvoiceStatus.NOT_YET_PAID)) {
+		if(!getState().equals(InvoiceState.NOT_YET_PAID)) {
 			throw new IllegalStateException("The invoice has not been paid yet");
 		}
 		Associations.ToInvoice.link(this, workOrder);
@@ -114,7 +114,7 @@ public class Invoice extends BaseEntity{
 	 * @throws IllegalStateException if the invoice status is not NOT_YET_PAID
 	 */
 	public void removeWorkOrder(WorkOrder workOrder) {
-		if(!getState().equals(InvoiceStatus.NOT_YET_PAID)) {
+		if(!getState().equals(InvoiceState.NOT_YET_PAID)) {
 			throw new IllegalStateException("The invoice has not been paid yet");
 		}
 		Associations.ToInvoice.unlink(this, workOrder);
@@ -130,7 +130,7 @@ public class Invoice extends BaseEntity{
 	 *  	the total of the invoice
 	 */
 	public void settle() {
-		if(getState().equals(InvoiceStatus.PAID)) {
+		if(getState().equals(InvoiceState.PAID)) {
 			throw new IllegalStateException("The invoice is already settled");
 		}
 		double cargos = 0; 
@@ -141,7 +141,7 @@ public class Invoice extends BaseEntity{
             throw new IllegalStateException("The amounts paid with charges to payment means do not cover the total of the invoice");
         }
         
-        setState(InvoiceStatus.PAID);
+        setState(InvoiceState.PAID);
 	}
 
 	public Long getNumber() {
@@ -176,11 +176,11 @@ public class Invoice extends BaseEntity{
 		this.vat = vat;
 	}
 
-	public InvoiceStatus getState() {
+	public InvoiceState getState() {
 		return state;
 	}
 
-	public void setState(InvoiceStatus status) {
+	public void setState(InvoiceState status) {
 		this.state = status;
 	}
 
@@ -226,7 +226,7 @@ public class Invoice extends BaseEntity{
 	}
 
 	public boolean isNotSettled() {
-		if(this.state.equals(InvoiceStatus.PAID)) { 
+		if(this.state.equals(InvoiceState.PAID)) { 
 			return false;
 		}
 		return true;

@@ -2,20 +2,35 @@ package uo.ri.cws.application.service.mechanic.crud.command;
 
 import java.util.Optional;
 
+import uo.ri.conf.Factory;
+import uo.ri.cws.application.repository.MechanicRepository;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.mechanic.MechanicCrudService.MechanicDto;
+import uo.ri.cws.application.util.DtoAssembler;
+import uo.ri.cws.domain.Mechanic;
+import uo.ri.util.assertion.ArgumentChecks;
 
 public class FindMechanicById {
 
 	private String id;
 
 	public FindMechanicById(String id) {
+		checkArgument(id);
 		this.id = id;
 	}
 
-	public Optional<MechanicDto> execute() throws BusinessException {
+	private void checkArgument(String id) {
+		ArgumentChecks.isNotEmpty(id);
+		ArgumentChecks.isNotNull(id);
+	}
 
-		return Optional.empty();
+	public Optional<MechanicDto> execute() throws BusinessException {
+		MechanicRepository mr = Factory.repository.forMechanic();
+		Optional<Mechanic> om = mr.findById(id); 
+		if(om.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(DtoAssembler.toDto(om.get()));
 	}
 
 }

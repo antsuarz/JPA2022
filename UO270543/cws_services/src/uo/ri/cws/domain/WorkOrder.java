@@ -20,7 +20,7 @@ import uo.ri.util.math.Round;
 @Entity
 @Table(name = "TWORKORDERS", uniqueConstraints = { @UniqueConstraint(columnNames = {"DATE","VEHICLE_ID"})}) 
 public class WorkOrder extends BaseEntity{
-	public enum WorkOrderStatus {
+	public enum WorkOrderState {
 		OPEN,
 		ASSIGNED,
 		FINISHED,
@@ -33,7 +33,7 @@ public class WorkOrder extends BaseEntity{
 	private double amount = 0.0;
 	
 	@Enumerated(EnumType.STRING)
-	private WorkOrderStatus state = WorkOrderStatus.OPEN;
+	private WorkOrderState state = WorkOrderState.OPEN;
 
 	// accidental attributes
 	@ManyToOne
@@ -47,7 +47,7 @@ public class WorkOrder extends BaseEntity{
 
 	WorkOrder(){}
 	
-	public WorkOrder( Vehicle vehicle ,LocalDateTime date, String description, double amount, WorkOrderStatus status) {
+	public WorkOrder( Vehicle vehicle ,LocalDateTime date, String description, double amount, WorkOrderState status) {
 		checkArguments(vehicle, date, description);
 		this.date = date.truncatedTo(ChronoUnit.MILLIS);
 		this.description = description;
@@ -57,7 +57,7 @@ public class WorkOrder extends BaseEntity{
 	}
 	
 	public WorkOrder(Vehicle vehicle, LocalDateTime date, String description) {
-		this(vehicle, date ,description, 0.0, WorkOrderStatus.OPEN);
+		this(vehicle, date ,description, 0.0, WorkOrderState.OPEN);
 	}
 
 	private void checkArguments(Vehicle vehicle, LocalDateTime date, String description) {
@@ -88,10 +88,10 @@ public class WorkOrder extends BaseEntity{
 	 *  - The work order is not linked with the invoice
 	 */
 	public void markAsInvoiced() {
-		if(!state.equals(WorkOrderStatus.FINISHED) || this.invoice == null) {
+		if(!state.equals(WorkOrderState.FINISHED) || this.invoice == null) {
 			throw new IllegalStateException("The Work Order is not finished or it has not an invoice linked");
 		}
-		this.state = WorkOrderStatus.INVOICED;
+		this.state = WorkOrderState.INVOICED;
 	}
 
 	/**
@@ -104,10 +104,10 @@ public class WorkOrder extends BaseEntity{
 	 *  - The work order is not linked with a mechanic
 	 */
 	public void markAsFinished() {
-		if(!state.equals(WorkOrderStatus.ASSIGNED) || this.mechanic == null) {
+		if(!state.equals(WorkOrderState.ASSIGNED) || this.mechanic == null) {
 			throw new IllegalStateException("The Work Order is not assigned or it has not a mechanic linked");
 		}
-		this.state = WorkOrderStatus.FINISHED;
+		this.state = WorkOrderState.FINISHED;
 		double interventionAmount = 0.0;
 		for(Intervention i : interventions) {
 			interventionAmount += i.getAmount();
@@ -124,10 +124,10 @@ public class WorkOrder extends BaseEntity{
 	 *  - The work order is still linked with the invoice
 	 */
 	public void markBackToFinished() {
-		if(!state.equals(WorkOrderStatus.INVOICED) || this.invoice != null) {
+		if(!state.equals(WorkOrderState.INVOICED) || this.invoice != null) {
 			throw new IllegalStateException("The Work Order is not invoiced or it has an invoice linked");
 		}
-		this.state = WorkOrderStatus.FINISHED;
+		this.state = WorkOrderState.FINISHED;
 	}
 
 	/**
@@ -139,11 +139,11 @@ public class WorkOrder extends BaseEntity{
 	 *  - The work order is already linked with another mechanic
 	 */
 	public void assignTo(Mechanic mechanic) {
-		if(!state.equals(WorkOrderStatus.OPEN) || this.mechanic != null) {
+		if(!state.equals(WorkOrderState.OPEN) || this.mechanic != null) {
 			throw new IllegalStateException("The Work Order is not open or it has an mechanic linked");
 		}
 		Associations.Assign.link(mechanic, this);
-		this.state = WorkOrderStatus.ASSIGNED;
+		this.state = WorkOrderState.ASSIGNED;
 	}
 
 	/**
@@ -154,11 +154,11 @@ public class WorkOrder extends BaseEntity{
 	 * 	- The work order is not in ASSIGNED status
 	 */
 	public void desassign() {
-		if(!state.equals(WorkOrderStatus.ASSIGNED)) {
+		if(!state.equals(WorkOrderState.ASSIGNED)) {
 			throw new IllegalStateException("The Work Order is not assigned yet");
 		}
 		Associations.Assign.unlink(mechanic, this);
-		this.state = WorkOrderStatus.OPEN;
+		this.state = WorkOrderState.OPEN;
 	}
 
 	/**
@@ -169,11 +169,11 @@ public class WorkOrder extends BaseEntity{
 	 * 	- The work order is not in FINISHED status
 	 */
 	public void reopen() {
-		if(!state.equals(WorkOrderStatus.FINISHED)) {
+		if(!state.equals(WorkOrderState.FINISHED)) {
 			throw new IllegalStateException("The Work Order is not finished yet");
 		}
 		Associations.Assign.unlink(mechanic, this);
-		this.state = WorkOrderStatus.OPEN;
+		this.state = WorkOrderState.OPEN;
 	}
 
 	public LocalDateTime getDate() {
@@ -196,7 +196,7 @@ public class WorkOrder extends BaseEntity{
 		return amount;
 	} 
 
-	public WorkOrderStatus getState() {
+	public WorkOrderState getState() {
 		return state;
 	} 
 
@@ -240,14 +240,14 @@ public class WorkOrder extends BaseEntity{
 	}
 
 	public boolean isInvoiced() {
-		if(state.equals(WorkOrderStatus.INVOICED)) {
+		if(state.equals(WorkOrderState.INVOICED)) {
 			return true;
 		}
 		return false;
 	}
 
 	public boolean isFinished() {
-		if(state.equals(WorkOrderStatus.FINISHED)) {
+		if(state.equals(WorkOrderState.FINISHED)) {
 			return true;
 		}
 		return false;

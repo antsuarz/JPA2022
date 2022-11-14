@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import uo.ri.cws.application.repository.MechanicRepository;
+import uo.ri.cws.domain.ContractType;
 import uo.ri.cws.domain.Mechanic;
+import uo.ri.cws.domain.ProfessionalGroup;
 
 public class MechanicJpaRepository
 		// extends BaseJpaRepository<Mechanic>
@@ -34,6 +36,24 @@ public class MechanicJpaRepository
 
 	@Override
 	public Optional<Mechanic> findByDni(String dni) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Mechanic> findAllInForce() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Mechanic> findInForceInContractType(ContractType contractType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Mechanic> findAllInProfessionalGroup(ProfessionalGroup group) {
 		// TODO Auto-generated method stub
 		return null;
 	}

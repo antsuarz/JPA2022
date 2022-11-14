@@ -1,10 +1,15 @@
 package uo.ri.cws.infrastructure.persistence.jpa.repository;
 
+import uo.ri.cws.application.repository.ChargeRepository;
 import uo.ri.cws.application.repository.ClientRepository;
+import uo.ri.cws.application.repository.ContractRepository;
+import uo.ri.cws.application.repository.ContractTypeRepository;
 import uo.ri.cws.application.repository.InterventionRepository;
 import uo.ri.cws.application.repository.InvoiceRepository;
 import uo.ri.cws.application.repository.MechanicRepository;
 import uo.ri.cws.application.repository.PaymentMeanRepository;
+import uo.ri.cws.application.repository.PayrollRepository;
+import uo.ri.cws.application.repository.ProfessionalGroupRepository;
 import uo.ri.cws.application.repository.RepositoryFactory;
 import uo.ri.cws.application.repository.SparePartRepository;
 import uo.ri.cws.application.repository.VehicleRepository;
@@ -56,6 +61,36 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 	@Override
 	public VehicleTypeRepository forVehicleType() {
 		return new VehicleTypeJpaRepository();
+	}
+
+	@Override
+	public ChargeRepository forCharge() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ContractRepository forContract() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProfessionalGroupRepository forProfessionalGroup() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ContractTypeRepository forContractType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PayrollRepository forPayroll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

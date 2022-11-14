@@ -3,10 +3,14 @@ package uo.ri.cws.application.service;
 import uo.ri.cws.application.ServiceFactory;
 import uo.ri.cws.application.service.client.ClientCrudService;
 import uo.ri.cws.application.service.client.ClientHistoryService;
+import uo.ri.cws.application.service.contract.ContractService;
+import uo.ri.cws.application.service.contracttype.ContractTypeService;
 import uo.ri.cws.application.service.invoice.InvoicingService;
 import uo.ri.cws.application.service.invoice.create.InvoicingServiceImpl;
 import uo.ri.cws.application.service.mechanic.MechanicCrudService;
 import uo.ri.cws.application.service.mechanic.crud.MechanicCrudServiceImpl;
+import uo.ri.cws.application.service.payroll.PayrollService;
+import uo.ri.cws.application.service.professionalgroup.ProfessionalGroupService;
 import uo.ri.cws.application.service.sparepart.SparePartCrudService;
 import uo.ri.cws.application.service.vehicle.VehicleCrudService;
 import uo.ri.cws.application.service.vehicle.crud.VehicleCrudServiceImpl;
@@ -64,6 +68,26 @@ public class BusinessFactory implements ServiceFactory {
 
 	@Override
 	public ViewAssignedWorkOrdersService forViewAssignedWorkOrdersService() {
+		throw new RuntimeException("Not yet implemented");
+	}
+
+	@Override
+	public ContractService forContractService() {
+		throw new RuntimeException("Not yet implemented");
+	}
+
+	@Override
+	public ContractTypeService forContractTypeService() {
+		throw new RuntimeException("Not yet implemented");
+	}
+
+	@Override
+	public PayrollService forPayrollService() {
+		throw new RuntimeException("Not yet implemented");
+	}
+
+	@Override
+	public ProfessionalGroupService forProfessionalGroupService() {
 		throw new RuntimeException("Not yet implemented");
 	}
 

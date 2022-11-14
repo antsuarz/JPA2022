@@ -7,7 +7,11 @@ import uo.ri.cws.application.repository.InvoiceRepository;
 import uo.ri.cws.application.repository.WorkOrderRepository;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.invoice.InvoicingService.InvoiceDto;
+import uo.ri.cws.application.util.BusinessChecks;
+import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
+import uo.ri.cws.domain.Invoice;
+import uo.ri.cws.domain.WorkOrder;
 import uo.ri.util.assertion.ArgumentChecks;
 
 public class CreateInvoiceFor implements Command<InvoiceDto>{
@@ -23,8 +27,17 @@ public class CreateInvoiceFor implements Command<InvoiceDto>{
 
 	@Override
 	public InvoiceDto execute() throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<WorkOrder> wol = wrkrsRepo.findByIds(workOrderIds);
+		BusinessChecks.isTrue(wol.size() == workOrderIds.size());
+		
+		for(WorkOrder w : wol) {
+			BusinessChecks.isTrue(w.isFinished());
+		}
+		Long next = invsRepo.getNextInvoiceNumber();
+		Invoice invoice = new Invoice(next, wol);
+		invsRepo.add(invoice);
+		return DtoAssembler.toDto(invoice);
 	}
 
 }

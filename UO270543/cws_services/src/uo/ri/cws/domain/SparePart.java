@@ -37,6 +37,7 @@ public class SparePart extends BaseEntity{
 
 	private void checkArguments(String code, String description) {
 		ArgumentChecks.isNotBlank(code);
+		ArgumentChecks.isNotNull(code);
 		ArgumentChecks.isNotBlank(description);
 	}
 	
