@@ -3,28 +3,39 @@ package uo.ri.cws.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
+@Entity(name = "TPROFESSIONALGROUPS")
 public class ProfessionalGroup extends BaseEntity{
 	
-	private HashSet<Contract> contracts = new HashSet<>();
+	@OneToMany(mappedBy = "professionalGroup")
+	private Set<Contract> contracts = new HashSet<>();
 	
+	@Column(unique = true)
 	private String name;
-	private double productivityRate;
-	private double trienniumSalary;
+	 
+	private double productivityBonusPercentage;
+	 
+	private double trienniumPayment;
 
+	ProfessionalGroup() {}
+	
 	public ProfessionalGroup(String name, double trienniumSalary, double productivityRate) {
 		checkArguments(name, productivityRate, trienniumSalary);
 		this.name = name;
-		this.productivityRate = productivityRate;
-		this.trienniumSalary = trienniumSalary;
+		this.productivityBonusPercentage = productivityRate;
+		this.trienniumPayment = trienniumSalary;
 	}
 
-	private void checkArguments(String name2, double productivityRate2, double trienniumSalary2) {
-		ArgumentChecks.isNotBlank(name2);
-		ArgumentChecks.isTrue(productivityRate2 >= 0);
-		ArgumentChecks.isTrue(trienniumSalary2 >= 0);
+	private void checkArguments(String name, double productivityRate, double trienniumSalary) {
+		ArgumentChecks.isNotBlank(name);
+		ArgumentChecks.isTrue(productivityRate >= 0);
+		ArgumentChecks.isTrue(trienniumSalary >= 0);
 		
 	}
 
@@ -33,15 +44,11 @@ public class ProfessionalGroup extends BaseEntity{
 	}
 
 	public double getProductivityBonusPercentage() { 
-		return productivityRate;
+		return productivityBonusPercentage;
 	}
 
 	public double getTrienniumPayment() {
-		return trienniumSalary;
-	}
-	
-	public double getProductivityRate() {
-		return productivityRate;
+		return trienniumPayment;
 	}
 
 	public Set<Contract> getContracts() { 

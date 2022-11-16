@@ -3,15 +3,25 @@ package uo.ri.cws.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
+@Entity(name= "TCONTRACTTYPES")
 public class ContractType extends BaseEntity{
 
+	@OneToMany(mappedBy = "contractType")
 	private Set<Contract> contracts = new HashSet<>();
 	
+	@Column(unique = true)
 	private String name;
+	
 	private double compensationDays;
+	
+	ContractType() {}
 	
 	public ContractType(String name, double compensationDays) {
 		checkArguments(name, compensationDays);

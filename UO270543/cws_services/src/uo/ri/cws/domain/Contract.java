@@ -12,11 +12,14 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
-@Entity(name = "TCONTRACT")
+@Entity
+@Table(name = "TCONTRACT", uniqueConstraints = { @UniqueConstraint(columnNames = {"MECHANIC_ID","STARTDATE","FIREDMECHANIC_ID"})})
 public class Contract extends BaseEntity{
 
 	public enum ContractState{IN_FORCE,TERMINATED}
@@ -30,7 +33,7 @@ public class Contract extends BaseEntity{
 	@ManyToOne
 	private ContractType contractType;
 	
-	@OneToMany(mappedBy = "contracts")
+	@OneToMany(mappedBy = "contract")
 	private Set<Payroll> payRolls = new HashSet<>();
 	
 	private Mechanic firedMechanic;

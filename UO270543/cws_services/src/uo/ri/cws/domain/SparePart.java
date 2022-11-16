@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,6 +16,7 @@ import uo.ri.util.assertion.ArgumentChecks;
 @Table(name = "TSpareparts")
 public class SparePart extends BaseEntity{
 	// natural attributes
+	@Column(unique = true)
 	private String code;
 	private String description;
 	private double price;
@@ -29,7 +31,7 @@ public class SparePart extends BaseEntity{
 		this(code, "noDescription", 0.0);
 	}
 	public SparePart(String code, String description, double price) {
-		checkArguments( code, description);
+		checkArguments(code, description);
 		this.code = code;
 		this.description = description;
 		this.price = price;

@@ -4,19 +4,25 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
-@Entity(name= "TPAYROLL")
+@Entity
+@Table(name = "TPAYROLLS", uniqueConstraints = { @UniqueConstraint(columnNames = {"CONTRACT_ID","DATE"})})
 public class Payroll extends BaseEntity{
 
 	@ManyToOne
 	private Contract contract;
 	
-	private LocalDate date;	
+	@Column(unique = true)
+	private LocalDate date;
+	
 	private double monthlyWage; 
 	private double bonus;
 	private double productivityBonus;

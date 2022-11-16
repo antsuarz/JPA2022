@@ -20,6 +20,7 @@ public class Mechanic extends BaseEntity{
 	// natural attributes
 	@Column(unique = true)
 	private String dni;
+	
 	private String surname;
 	private String name;
 

@@ -82,7 +82,7 @@ public class SubstitutionMappingTests {
 		Substitution restored = unitOfWork.findById( Substitution.class,
 				substitution.getId() );
 
-		assertEquals( substitution.getId(), restored.getId() );
+		assertEquals( substitution.getId(), restored.getId() ); 
 		assertEquals( substitution.getQuantity(), restored.getQuantity() );
 		assertEquals( substitution.getIntervention(), restored.getIntervention() );
 		assertEquals( substitution.getSparePart(), restored.getSparePart() );
