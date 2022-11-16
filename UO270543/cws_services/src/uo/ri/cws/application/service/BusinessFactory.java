@@ -5,6 +5,7 @@ import uo.ri.cws.application.service.client.ClientCrudService;
 import uo.ri.cws.application.service.client.ClientHistoryService;
 import uo.ri.cws.application.service.contract.ContractService;
 import uo.ri.cws.application.service.contracttype.ContractTypeService;
+import uo.ri.cws.application.service.contracttype.crud.ContractTypeCrudServiceImpl;
 import uo.ri.cws.application.service.invoice.InvoicingService;
 import uo.ri.cws.application.service.invoice.create.InvoicingServiceImpl;
 import uo.ri.cws.application.service.mechanic.MechanicCrudService;
@@ -78,7 +79,7 @@ public class BusinessFactory implements ServiceFactory {
 
 	@Override
 	public ContractTypeService forContractTypeService() {
-		throw new RuntimeException("Not yet implemented");
+		return new ContractTypeCrudServiceImpl();
 	}
 
 	@Override

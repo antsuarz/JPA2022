@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import uo.ri.cws.application.service.client.ClientCrudService.ClientDto;
+import uo.ri.cws.application.service.contracttype.ContractTypeService.ContractTypeDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.CardDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.CashDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.InvoiceDto;
@@ -16,6 +17,7 @@ import uo.ri.cws.application.service.vehicle.VehicleCrudService.VehicleDto;
 import uo.ri.cws.application.service.vehicletype.VehicleTypeCrudService.VehicleTypeDto;
 import uo.ri.cws.domain.Cash;
 import uo.ri.cws.domain.Client;
+import uo.ri.cws.domain.ContractType;
 import uo.ri.cws.domain.CreditCard;
 import uo.ri.cws.domain.Invoice;
 import uo.ri.cws.domain.Mechanic;
@@ -201,4 +203,23 @@ public class DtoAssembler {
 		    result.add(toDto(w));
 		return result;
 	    }
+
+		public static List<ContractTypeDto> toContractTypeDtoList(List<ContractType> list) {
+			List<ContractTypeDto> result = new ArrayList<ContractTypeDto>();
+			for (ContractType w : list)
+			    result.add(toDto(w));
+			return result;
+		}
+
+		public static ContractTypeDto toDto(ContractType ct) {
+			ContractTypeDto dto = new ContractTypeDto();
+
+			dto.id = ct.getId();
+			dto.version = ct.getVersion();
+
+			dto.name = ct.getName();
+			dto.compensationDays = ct.getCompensationDays();
+
+			return dto;
+		}
 }

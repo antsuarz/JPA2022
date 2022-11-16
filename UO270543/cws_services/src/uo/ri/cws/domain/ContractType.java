@@ -45,6 +45,15 @@ public class ContractType extends BaseEntity{
 		return compensationDays;
 	}
 
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setCompensationDays(double compensationDays) {
+		this.compensationDays = compensationDays;
+	}
+
 	public Set<Contract> getContracts() { 
 		return new HashSet<>(contracts);
 	}

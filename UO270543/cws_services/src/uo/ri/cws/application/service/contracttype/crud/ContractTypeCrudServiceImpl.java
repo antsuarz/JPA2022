@@ -6,15 +6,19 @@ import java.util.Optional;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.contracttype.ContractTypeService;
+import uo.ri.cws.application.service.contracttype.crud.command.AddContractType;
+import uo.ri.cws.application.service.contracttype.crud.command.DeleteContractType;
+import uo.ri.cws.application.service.contracttype.crud.command.FindAllContractTypes;
+import uo.ri.cws.application.service.contracttype.crud.command.FindContractTypeByName;
+import uo.ri.cws.application.service.contracttype.crud.command.UpdateContractType;
 import uo.ri.cws.application.util.command.CommandExecutor;
 
-public class ComandTypeCrudServiceImpl implements ContractTypeService{
+public class ContractTypeCrudServiceImpl implements ContractTypeService{
 
 	private CommandExecutor executor = Factory.executor.forExecutor();
 	
 	@Override
 	public ContractTypeDto addContractType(ContractTypeDto dto) throws BusinessException {
-		
 		return executor.execute(new AddContractType(dto));
 	}
 
