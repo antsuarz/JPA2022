@@ -2,11 +2,13 @@ package uo.ri.cws.domain;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import uo.ri.cws.domain.base.BaseEntity;
@@ -27,6 +29,12 @@ public class Mechanic extends BaseEntity{
 
 	@OneToMany(mappedBy= "mechanic")
 	private Set<Intervention> interventions = new HashSet<>();
+	
+	@OneToMany(mappedBy = "mechanic")
+	private Set<Contract> terminatedContracts = new HashSet<>();
+	
+	@OneToOne
+	private Contract inForceContract;
 
 	Mechanic(){}
 	
@@ -122,6 +130,39 @@ public class Mechanic extends BaseEntity{
 	public String toString() {
 		return "Mechanic [dni=" + dni + ", surname=" + surname + ", name=" + name + ", assigned=" + assigned
 				+ ", interventions=" + interventions + "]";
+	}
+
+	public Optional<Contract> getContractInForce() {
+		if(inForceContract == null) {
+			return Optional.empty();
+		}
+		return Optional.of(inForceContract);
+	}
+
+	public Set<Contract> getTerminatedContracts() {
+		return new HashSet<>(terminatedContracts);
+	}
+
+	public Set<Contract> _getTerminatedContracts() { 
+		return terminatedContracts;
+	}
+
+	void _setInForceContract(Optional<Contract> contract){
+		if(contract.isEmpty()) {
+			this.inForceContract = null;
+		}
+		else {
+			this.inForceContract = contract.get();
+		}
+	}
+	public boolean isInForce() {
+		if(inForceContract == null) 
+			return false;
+		return true;
+	}
+
+	public void _setTerminatedContracts(Contract contract) {
+		terminatedContracts.add(contract);
 	}
 
 	

@@ -252,6 +252,16 @@ public class WorkOrder extends BaseEntity{
 		}
 		return false;
 	}
+
+	public void setStatusForTesting(WorkOrderState state) {
+		this.state = state;
+		
+	}
+
+	public void setAmountForTesting(double money) {
+		this.amount = money;
+		
+	}
 	
 
 }

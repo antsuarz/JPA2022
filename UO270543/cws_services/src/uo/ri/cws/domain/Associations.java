@@ -1,5 +1,7 @@
 package uo.ri.cws.domain;
 
+import java.util.Optional;
+
 public class Associations {
 
 	public static class Own {
@@ -137,6 +139,79 @@ public class Associations {
 			sustitution.getSparePart()._getSubstitutions().remove(sustitution);
 			sustitution._setIntervention(null);
 			sustitution._setSparePart(null);
+		}
+
+	}
+
+	public static class Fire{
+
+		public static void link(Contract contract) {
+			contract.setFiredMechanic(contract.getMechanic().get());
+			contract.getMechanic().get()._getTerminatedContracts().add(contract);
+			contract.getMechanic().get()._setInForceContract(Optional.empty());
+		}
+		
+
+		public static void unlink(Contract contract) {
+			contract.getMechanic().get()._setInForceContract(Optional.of(contract));
+			contract.getMechanic().get()._getTerminatedContracts().remove(contract);
+			contract.setFiredMechanic(null);		
+		}
+
+	}
+
+	public static class Group{
+
+		public static void link(Contract contract, ProfessionalGroup group) { 
+			contract.setProfessionalGroup(group);
+			group._getContracts().add(contract);
+		}
+
+		public static void unlink(Contract contract, ProfessionalGroup group) {
+			group._getContracts().remove(contract);
+			contract.setProfessionalGroup(null);
+		}
+
+	}
+	
+	public static class Hire{
+
+		public static void link(Contract contract, Mechanic mechanic) { 
+			contract._setMechanic(mechanic);
+			mechanic._setInForceContract(Optional.of(contract));
+		}
+
+		public static void unlink(Contract contract, Mechanic mechanic) { 
+			mechanic._setInForceContract(Optional.empty()); 
+		}
+
+	}
+	
+	public static class Run{
+
+		public static void link(Payroll payroll, Contract contract) { 
+			payroll.setContract(contract);
+			contract._getPayrolls().add(payroll);
+		}
+ 
+		public static void unlink(Payroll payroll) {
+			payroll.getContract()._getPayrolls().remove(payroll);
+			payroll.setContract(null);
+			
+		}
+
+	}
+	
+	public static class Type{
+
+		public static void link(Contract contract, ContractType type) { 
+			contract.setType(type);
+			type._getContracts().add(contract);
+		} 
+
+		public static void unlink(Contract contract, ContractType type) {
+			type._getContracts().remove(contract);
+			contract.setType(null);
 		}
 
 	}

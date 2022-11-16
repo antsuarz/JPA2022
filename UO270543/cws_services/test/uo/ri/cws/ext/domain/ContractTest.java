@@ -251,7 +251,7 @@ public class ContractTest {
 							.get()
 							.equals(LocalDate	.now()
 												.with(TemporalAdjusters.lastDayOfMonth())));
-
+		
 		assertEquals(contract.getSettlement(),
 				this.dailyWage * this.compensationDays * 4, 0.01);
 	}
