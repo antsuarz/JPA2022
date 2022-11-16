@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,6 +34,7 @@ public class WorkOrder extends BaseEntity{
 	private double amount = 0.0;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
 	private WorkOrderState state = WorkOrderState.OPEN;
 
 	// accidental attributes
@@ -231,13 +233,6 @@ public class WorkOrder extends BaseEntity{
 	public Mechanic getMechanic() { 
 		return mechanic;
 	} 
-
-	@Override
-	public String toString() {
-		return "WorkOrder [date=" + date + ", description=" + description + ", amount=" + amount + ", status=" + state
-				+ ", vehicle=" + vehicle + ", mechanic=" + mechanic + ", invoice=" + invoice + ", interventions="
-				+ interventions + "]";
-	}
 
 	public boolean isInvoiced() {
 		if(state.equals(WorkOrderState.INVOICED)) {

@@ -14,6 +14,7 @@
 		<query>select a from WorkOrder a where a.id in ?1</query>
 	</named-query>
 
+
 	<!-- PaymentMean queries -->
 	<named-query name="PaymentMean.findByInvoiceId">
 		<query>
@@ -35,6 +36,19 @@
 		</query>
 	</named-query>
 
+	<named-query name="Mechanic.findAllInForce">
+		<query>select m from Mechanic m where m.inForceContract.state = uo.ri.cws.domain.Contract.ContractState.IN_FORCE</query>
+	</named-query>
+	
+	<named-query name="Mechanic.findAllInForceInContractType">
+		<query>select m from Mechanic m where m.inForceContract.state = uo.ri.cws.domain.Contract.ContractState.IN_FORCE and m.inForceContract.contractType.name = ?1 </query>
+	</named-query>
+	
+	<named-query name="Mechanic.findAllInProfessionalGroup">
+		<query>select m from Mechanic m where m.inForceContract.state = uo.ri.cws.domain.Contract.ContractState.IN_FORCE 
+		and m.inForceContract.professionalGroup.name = ?1 </query>
+	</named-query>
+	
 	<!-- Invoice queries -->
 	<named-query name="Invoice.findByNumber">
 		<query>select f from Invoice f where f.number = ?1</query>
@@ -44,6 +58,17 @@
 		<query>select max(f.number) + 1 from Invoice f</query>
 	</named-query>
 	
+	<!-- ContractTypes queries -->
+	
+	<named-query name="ContractType.findByName">
+		<query>select c from ContractType c where c.name = ?1</query>
+	</named-query>
+	
+	<!--  Professional Group -->
+	
+	<named-query name="ProfessionalGroup.findByName">
+		<query>select p.professionalGroup from Contract p where p.professionalGroup.name = ?1</query>
+	</named-query>
 <!-- 
 	Use this format if your query has 
 	numeric comparisons as the one in this example

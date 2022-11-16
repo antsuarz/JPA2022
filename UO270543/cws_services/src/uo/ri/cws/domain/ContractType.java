@@ -6,22 +6,24 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
-@Entity(name= "TCONTRACTTYPES")
+@Entity
+@Table(name = "TCONTRACTTYPES")
 public class ContractType extends BaseEntity{
 
 	@OneToMany(mappedBy = "contractType")
 	private Set<Contract> contracts = new HashSet<>();
-	
+
 	@Column(unique = true)
 	private String name;
 	
 	private double compensationDays;
 	
-	ContractType() {}
+	ContractType(){}
 	
 	public ContractType(String name, double compensationDays) {
 		checkArguments(name, compensationDays);
@@ -29,9 +31,8 @@ public class ContractType extends BaseEntity{
 		this.compensationDays = compensationDays;
 	}
 
-	private void checkArguments(String name2, double compensationDays2) {
-		ArgumentChecks.isNotNull(name2);
-		ArgumentChecks.isNotEmpty(name2);
+	private void checkArguments(String name2, double compensationDays2) { 
+		ArgumentChecks.isNotBlank(name2);
 		ArgumentChecks.isTrue(compensationDays2 >= 0);
 		
 	}

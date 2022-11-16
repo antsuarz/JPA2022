@@ -1,5 +1,6 @@
 package uo.ri.cws.application.service.invoice;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -251,8 +252,8 @@ public class InvoicingSteps {
 
 	InvoiceDto expectedInvoice = createExpectedInvoice(this.allWorkorders);
 	/* with proper number */
-	/* with proper amount */
-	assertTrue(found.total == expectedInvoice.total);
+	/* with proper amount */ 
+	assertEquals(found.total , expectedInvoice.total, 0.1);
 
 	/* with proper state */
 	assertTrue(found.state.equals(expectedInvoice.state));

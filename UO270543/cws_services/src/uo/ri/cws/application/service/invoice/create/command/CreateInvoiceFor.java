@@ -21,8 +21,17 @@ public class CreateInvoiceFor implements Command<InvoiceDto>{
 	private InvoiceRepository invsRepo = Factory.repository.forInvoice();
 
 	public CreateInvoiceFor(List<String> workOrderIds) {
-		ArgumentChecks.isNotNull( workOrderIds );
+		checkArguments(workOrderIds);
 		this.workOrderIds = workOrderIds;
+	}
+
+	private void checkArguments(List<String> workOrderIds) {
+		ArgumentChecks.isNotNull( workOrderIds );
+		ArgumentChecks.isTrue( !workOrderIds.isEmpty() );
+		for(String id: workOrderIds) {
+			ArgumentChecks.isNotNull(id);
+			ArgumentChecks.isNotBlank(id);
+		}
 	}
 
 	@Override

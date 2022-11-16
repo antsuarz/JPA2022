@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -15,13 +16,16 @@ import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
 @Entity
-@Table(name = "TMechanics")
+@Table(name = "TMECHANICS")
 public class Mechanic extends BaseEntity{
-	// natural attributes
+	
 	@Column(unique = true)
 	private String dni;
 	
+	@Basic(optional = false)
 	private String surname;
+	
+	@Basic(optional = false)
 	private String name;
 
 	// accidental attributes
@@ -31,10 +35,10 @@ public class Mechanic extends BaseEntity{
 	@OneToMany(mappedBy= "mechanic")
 	private Set<Intervention> interventions = new HashSet<>();
 	
-	@OneToMany(mappedBy = "mechanic")
+	@OneToMany(mappedBy = "firedMechanic")
 	private Set<Contract> terminatedContracts = new HashSet<>();
 	
-	@OneToOne
+	@OneToOne(mappedBy = "mechanic")
 	private Contract inForceContract;
 
 	Mechanic(){}

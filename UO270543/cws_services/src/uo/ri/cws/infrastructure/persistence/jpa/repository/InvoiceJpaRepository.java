@@ -5,6 +5,8 @@ import java.util.Optional;
 import uo.ri.cws.application.repository.InvoiceRepository;
 import uo.ri.cws.domain.Invoice;
 import uo.ri.cws.infrastructure.persistence.jpa.util.BaseJpaRepository;
+import uo.ri.cws.infrastructure.persistence.jpa.util.Jpa;
+import uo.ri.util.exception.NotYetImplementedException;
 
 public class InvoiceJpaRepository 
 		extends BaseJpaRepository<Invoice>
@@ -12,14 +14,14 @@ public class InvoiceJpaRepository
 
 	@Override
 	public Optional<Invoice> findByNumber(Long numero) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotYetImplementedException();
 	}
 
 	@Override
 	public Long getNextInvoiceNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		Long n = Jpa.getManager().createNamedQuery("Invoice.getNextInvoiceNumber", Long.class)
+				.getSingleResult();
+		 return n != null ? n : 1L;
 	}
 
 }

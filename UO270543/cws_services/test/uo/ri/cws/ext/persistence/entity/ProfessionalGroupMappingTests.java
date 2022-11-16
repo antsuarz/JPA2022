@@ -39,6 +39,7 @@ public class ProfessionalGroupMappingTests {
 	contract = new Contract(mechanic, type, group, 3000.0);
 	unitOfWork
 		.persist(contract, group, type, mechanic);
+	
     }
 
     @After

@@ -7,11 +7,13 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -19,12 +21,12 @@ import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
 
 @Entity
-@Table(name = "TCONTRACT", uniqueConstraints = { @UniqueConstraint(columnNames = {"MECHANIC_ID","STARTDATE","FIREDMECHANIC_ID"})})
+@Table(name = "TCONTRACTS", uniqueConstraints = { @UniqueConstraint(columnNames = {"MECHANIC_ID","STARTDATE","FIREDMECHANIC_ID"})})
 public class Contract extends BaseEntity{
 
 	public enum ContractState{IN_FORCE,TERMINATED}
 
-	@ManyToOne
+	@OneToOne
 	private Mechanic mechanic;
 	
 	@ManyToOne
@@ -36,9 +38,14 @@ public class Contract extends BaseEntity{
 	@OneToMany(mappedBy = "contract")
 	private Set<Payroll> payRolls = new HashSet<>();
 	
+	@ManyToOne
 	private Mechanic firedMechanic;
+	
 	private LocalDate startDate;
+	
+	@Column(name = "ANNUALBASEWAGE")
 	private double annualWage;
+	
 	private LocalDate endDate;
 	private double settlement;
 	
@@ -57,9 +64,11 @@ public class Contract extends BaseEntity{
 		this.annualWage = wage;
 		this.endDate = endDate;
 		this.state = ContractState.IN_FORCE;
-		Associations.Hire.link(this, mechanic);
 		Associations.Group.link(this, group);
+		Associations.Hire.link(this, mechanic);
 		Associations.Type.link(this, type);
+		
+		
 	}
 
 	private void checkArguments(Mechanic mechanic2, ContractType type, ProfessionalGroup group, LocalDate endDate2,

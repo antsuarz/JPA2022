@@ -19,7 +19,7 @@ import uo.ri.util.assertion.ArgumentChecks;
 import uo.ri.util.math.Round;
 
 @Entity
-@Table(name = "TInvoices")
+@Table(name = "TINVOICES")
 public class Invoice extends BaseEntity{
 	public enum InvoiceState { NOT_YET_PAID, PAID }
 
@@ -32,6 +32,7 @@ public class Invoice extends BaseEntity{
 	private double vat;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
 	private InvoiceState state = InvoiceState.NOT_YET_PAID;
 
 	// accidental attributes
@@ -65,18 +66,12 @@ public class Invoice extends BaseEntity{
 		}
 	}
 
-	private void computeVat(LocalDate date) {
-		this.vat = 21.0;
-        if(date.isBefore(LocalDate.parse("2012-07-01"))){
-        	this.vat = 18.0;
-        }
-	}
 
 	private void checkArguments(Long number, LocalDate date, List<WorkOrder> workOrders) {
 		ArgumentChecks.isNotNull(workOrders);
 		ArgumentChecks.isNotNull(date);
-		ArgumentChecks.isNotNull(number);
 		ArgumentChecks.isTrue(number >= 0);
+		ArgumentChecks.isNotNull(number);
 	}
 
 	/**
@@ -87,9 +82,11 @@ public class Invoice extends BaseEntity{
         for (WorkOrder wo : workOrders) {
             amount += wo.getAmount();
         }
-        computeVat(date);
-        amount = amount * (1 + vat / 100);
-        amount = Round.twoCents(amount);
+        this.vat = 21.0;
+        if(date.isBefore(LocalDate.parse("2012-07-01"))){
+        	this.vat = 18.0;
+        }
+        amount =  Round.twoCents(amount * (1 + vat / 100)); 
 	}
 
 	/**

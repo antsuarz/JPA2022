@@ -18,7 +18,7 @@ import uo.ri.cws.application.service.util.WorkOrderUtil;
 public class DeleteSteps {
     private MechanicDto mechanic;
     private MechanicCrudService service = Factory.service
-	    .forMechanicCrudService();
+	    .forMechanicCrudService();	
 
     private TestContext ctx;
 
@@ -36,7 +36,7 @@ public class DeleteSteps {
 
     @When("I remove the mechanic")
     public void i_remove_the_mechanic ( ) throws BusinessException {
-	service.deleteMechanic(mechanic.dni);
+	service.deleteMechanic(mechanic.id);
 
     }
 
@@ -65,7 +65,7 @@ public class DeleteSteps {
     public void i_try_to_remove_the_mechanic ( ) {
 	if ( mechanic == null )
 	    mechanic = (MechanicDto) ctx.get(Key.MECHANIC);
-	tryDeleteAndKeepException(mechanic.dni);
+	tryDeleteAndKeepException(mechanic.id);
 
     }
 
@@ -77,8 +77,8 @@ public class DeleteSteps {
     }
 
     @When("I try to delete a mechanic with {string}")
-    public void i_try_to_delete_a_mechanic_with ( String dni ) {
-	tryDeleteAndKeepException(dni);
+    public void i_try_to_delete_a_mechanic_with ( String id ) {
+	tryDeleteAndKeepException(id);
 
     }
 
@@ -95,9 +95,9 @@ public class DeleteSteps {
 
     }
 
-    private void tryDeleteAndKeepException ( String dni ) {
+    private void tryDeleteAndKeepException ( String id ) {
 	try {
-	    service.deleteMechanic(dni);
+	    service.deleteMechanic(id);
 	    fail();
 	} catch (BusinessException ex) {
 	    ctx.setException(ex);

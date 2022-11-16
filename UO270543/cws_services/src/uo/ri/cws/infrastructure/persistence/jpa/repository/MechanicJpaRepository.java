@@ -7,55 +7,35 @@ import uo.ri.cws.application.repository.MechanicRepository;
 import uo.ri.cws.domain.ContractType;
 import uo.ri.cws.domain.Mechanic;
 import uo.ri.cws.domain.ProfessionalGroup;
+import uo.ri.cws.infrastructure.persistence.jpa.util.BaseJpaRepository;
+import uo.ri.cws.infrastructure.persistence.jpa.util.Jpa;
 
 public class MechanicJpaRepository
-		// extends BaseJpaRepository<Mechanic>
+		extends BaseJpaRepository<Mechanic>
 		implements MechanicRepository {
 
-	@Override
-	public void add(Mechanic t) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void remove(Mechanic t) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public Optional<Mechanic> findById(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Mechanic> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Optional<Mechanic> findByDni(String dni) {
-		// TODO Auto-generated method stub
-		return null;
+		return Jpa.getManager().createNamedQuery("Mechanic.findByDni", Mechanic.class)
+				.setParameter(1, dni).getResultStream().findFirst();
 	}
 
 	@Override
 	public List<Mechanic> findAllInForce() {
-		// TODO Auto-generated method stub
-		return null;
+		return Jpa.getManager().createNamedQuery("Mechanic.findAllInForce", Mechanic.class).getResultList();
 	}
 
 	@Override
 	public List<Mechanic> findInForceInContractType(ContractType contractType) {
-		// TODO Auto-generated method stub
-		return null;
+		return Jpa.getManager().createNamedQuery("Mechanic.findAllInForceInContractType", Mechanic.class)
+				.setParameter(1, contractType.getName()).getResultList();
 	}
 
 	@Override
 	public List<Mechanic> findAllInProfessionalGroup(ProfessionalGroup group) {
-		// TODO Auto-generated method stub
-		return null;
+		return Jpa.getManager().createNamedQuery("Mechanic.findAllInProfessionalGroup", Mechanic.class)
+				.setParameter(1, group.getName()).getResultList();
 	}
 
 }

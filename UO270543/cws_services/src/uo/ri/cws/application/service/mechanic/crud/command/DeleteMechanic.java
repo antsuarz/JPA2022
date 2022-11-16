@@ -6,13 +6,16 @@ import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.MechanicRepository;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.util.BusinessChecks;
+import uo.ri.cws.application.util.command.Command;
 import uo.ri.cws.domain.Mechanic;
+import uo.ri.util.assertion.ArgumentChecks;
 
-public class DeleteMechanic {
+public class DeleteMechanic implements Command<Void>{
 
 	private String mechanicId;
 
 	public DeleteMechanic(String mechanicId) {
+		ArgumentChecks.isNotBlank(mechanicId);
 		this.mechanicId = mechanicId;
 	}
 
@@ -28,7 +31,9 @@ public class DeleteMechanic {
 	}
 
 	private void checkMechanic(Mechanic m) throws BusinessException {
+		BusinessChecks.isTrue(m.getContractInForce().isEmpty(), "The mechanic has a contract in force");
 		BusinessChecks.isTrue(m.getInterventions().isEmpty(), "The mechanic has interventions");
+		BusinessChecks.isTrue(m.getTerminatedContracts().isEmpty(), "The mechanic has terminated contracts");
 		BusinessChecks.isTrue(m.getAssigned().isEmpty(), "The mechanic has work orders");
 	}
 

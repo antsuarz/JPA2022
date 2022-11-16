@@ -7,11 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-import uo.ri.cws.domain.Contract;
-import uo.ri.cws.domain.ContractType;
-import uo.ri.cws.domain.Mechanic;
-import uo.ri.cws.domain.Payroll;
-import uo.ri.cws.domain.ProfessionalGroup;
 import uo.ri.cws.domain.base.BaseEntity;
 
 public class UnitOfWork {
@@ -69,17 +64,6 @@ public class UnitOfWork {
 
 		trx.commit();
 		mapper.close();
-	}
-
-	public void remove(Contract contract, ProfessionalGroup group, ContractType type, Mechanic mechanic) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void remove(Payroll payroll, Contract contract, ProfessionalGroup group, ContractType type,
-			Mechanic mechanic) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
