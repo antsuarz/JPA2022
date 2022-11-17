@@ -182,8 +182,7 @@ public class Associations {
 		}
 
 		public static void unlink(Contract contract, Mechanic mechanic) { 
-			mechanic._setInForceContract(Optional.empty()); 
-			contract._setMechanic(null); 
+			mechanic._setInForceContract(Optional.empty());  
 		}
 
 	}

@@ -62,7 +62,8 @@ public class Contract extends BaseEntity{
 		checkArguments( mechanic,  type, group, endDate,  wage);
 		this.startDate = LocalDate.now();
 		this.annualWage = wage;
-		this.endDate = endDate; 
+		this.endDate = endDate;
+		this.state = ContractState.IN_FORCE;
 		Associations.Group.link(this, group);
 		Associations.Hire.link(this, mechanic);
 		Associations.Type.link(this, type);
