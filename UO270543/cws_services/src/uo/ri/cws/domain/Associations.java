@@ -176,13 +176,14 @@ public class Associations {
 	
 	public static class Hire{
 
-		public static void link(Contract contract, Mechanic mechanic) { 
+		public static void link(Contract contract, Mechanic mechanic) {  
 			contract._setMechanic(mechanic);
 			mechanic._setInForceContract(Optional.of(contract));
 		}
 
 		public static void unlink(Contract contract, Mechanic mechanic) { 
 			mechanic._setInForceContract(Optional.empty()); 
+			contract._setMechanic(null); 
 		}
 
 	}

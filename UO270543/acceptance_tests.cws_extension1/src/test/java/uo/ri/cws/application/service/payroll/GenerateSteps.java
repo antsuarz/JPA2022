@@ -1,5 +1,6 @@
 package uo.ri.cws.application.service.payroll;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
@@ -75,13 +76,14 @@ public class GenerateSteps {
 
     @Then("one payroll is generated with {double}, {double}, {double}, {double}, {double}, {double}")
     public void one_payroll_is_generated_with ( Double moneyMonth, Double bonus,
-	    Double productivity, Double tri, Double tax, Double nic ) {
+	    Double productivity, Double tri, Double tax, Double nic ) { 
 	List<PayrollBLDto> founds = findGeneratedPayrolls();
 	this.generatedPayslips = founds.size();
-	assertTrue(this.generatedPayslips == 1);
+	assertEquals(this.generatedPayslips , 1);
 	PayrollBLDto found = founds.get(0);
 	assertTrue(Double.compare(found.monthlyWage, moneyMonth) == 0);
 	assertTrue(Double.compare(found.bonus, bonus) == 0);
+	System.out.println( "  "+ found.productivityBonus + "   "+ productivity);
 	assertTrue(Double.compare(found.productivityBonus, productivity) == 0);
 	assertTrue(Double.compare(found.trienniumPayment, tri) == 0);
 	assertTrue(Double.compare(found.incomeTax, tax) == 0);

@@ -69,6 +69,18 @@
 	<named-query name="ProfessionalGroup.findByName">
 		<query>select p.professionalGroup from Contract p where p.professionalGroup.name = ?1</query>
 	</named-query>
+	
+	<!-- Payroll -->
+	<named-query name="Payroll.findByContract">
+		<query>select p from Payroll p where p.contract.id = ?1</query>
+	</named-query>
+	
+	<!--  Contract  -->
+	
+	<named-query name="Contract.findByProfessionalGroupId">
+		<query>select c from Contract c where c.professionalGroup.id = ?1</query>
+	</named-query>
+	
 <!-- 
 	Use this format if your query has 
 	numeric comparisons as the one in this example

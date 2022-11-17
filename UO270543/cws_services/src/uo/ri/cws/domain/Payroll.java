@@ -12,6 +12,7 @@ import javax.persistence.UniqueConstraint;
 
 import uo.ri.cws.domain.base.BaseEntity;
 import uo.ri.util.assertion.ArgumentChecks;
+import uo.ri.util.math.Round;
 
 @Entity
 @Table(name = "TPAYROLLS", uniqueConstraints = { @UniqueConstraint(columnNames = {"CONTRACT_ID","DATE"})})
@@ -53,27 +54,32 @@ public class Payroll extends BaseEntity{
 		Associations.Run.link(this, contract);
 		this.date = date;
 		calculateWageAndBonus(date, contract.getAnnualBaseWage()/14);
-		this.productivityBonus = calculateProductivityBonus();
+		this.productivityBonus = calculateProductivityBonus(contract);
 		this.trienniumPayment = calcaulateTriennium(contract);
 		this.nic =  Math.floor((( contract.getAnnualBaseWage() * 0.05) / 12) * 100) / 100;
 		calculateTaxes();
 	}
 
 
-	private double calcaulateTriennium(Contract contract) {
-		return (Period.between(contract.getStartDate(), contract.getEndDate().get()).getYears() / 3) 
+	private double calcaulateTriennium(Contract contract) { 
+		LocalDate endDate = LocalDate.now();
+		if(contract.getEndDate().isPresent()) {
+			endDate = contract.getEndDate().get();
+		} 
+		return (Period.between(contract.getStartDate(), endDate).getYears() / 3) 
 				* contract.getProfessionalGroup().getTrienniumPayment();
 	}
 	
 	
-	private double calculateProductivityBonus() {
+	private double calculateProductivityBonus(Contract contract) {
 		double percentage = contract.getProfessionalGroup().getProductivityBonusPercentage()/ 100;
 		double amounts = 0.0;
-		
-		for(Intervention i: contract.getMechanic().get().getInterventions()) {
-			if(i.getWorkOrder().getDate().getMonth().equals(date.getMonth())){
-				if(i.getWorkOrder().isInvoiced()) {
-					amounts += i.getWorkOrder().getAmount();
+		if(contract.getMechanic().isPresent()) {
+			for(Intervention i: contract.getMechanic().get().getInterventions()) {
+				if(i.getWorkOrder().getDate().getMonth().equals(date.getMonth())){
+					if(i.getWorkOrder().isInvoiced()) {
+						amounts += i.getWorkOrder().getAmount();
+					}
 				}
 			}
 		}
@@ -151,24 +157,24 @@ public class Payroll extends BaseEntity{
 	}
 
 	
-	private void calculateTaxes() {
+	public void calculateTaxes() {
 		if(contract.getAnnualBaseWage() <= 12450) {
-			this.incomeTax = getBruteSalary() * 0.19;
+			this.incomeTax = Round.twoCents(getBruteSalary() * 0.19);
 		}
 		else if(contract.getAnnualBaseWage() > 12450 && contract.getAnnualBaseWage() <= 20200) {
-			this.incomeTax = getBruteSalary() * 0.24;
+			this.incomeTax = Round.twoCents(getBruteSalary() * 0.24);
 		}
 		else if(contract.getAnnualBaseWage() > 20200 && contract.getAnnualBaseWage() <= 35200) {
-			this.incomeTax =  getBruteSalary() * 0.30;
+			this.incomeTax =  Round.twoCents(getBruteSalary() * 0.30);
 		}
 		else if(contract.getAnnualBaseWage() > 35200 && contract.getAnnualBaseWage() <= 60000) {
-			this.incomeTax = getBruteSalary() * 0.37;
+			this.incomeTax = Round.twoCents(getBruteSalary() * 0.37);
 		}
 		else if(contract.getAnnualBaseWage() > 60000 && contract.getAnnualBaseWage() <= 300000) {
-			this.incomeTax = getBruteSalary() * 0.45;
+			this.incomeTax = Round.twoCents(getBruteSalary() * 0.45);
 		}
 		else if(contract.getAnnualBaseWage() < 300000) {
-			this.incomeTax = getBruteSalary() * 0.47;
+			this.incomeTax = Round.twoCents(getBruteSalary() * 0.47);
 		}
 	}
 	

@@ -62,8 +62,7 @@ public class Contract extends BaseEntity{
 		checkArguments( mechanic,  type, group, endDate,  wage);
 		this.startDate = LocalDate.now();
 		this.annualWage = wage;
-		this.endDate = endDate;
-		this.state = ContractState.IN_FORCE;
+		this.endDate = endDate; 
 		Associations.Group.link(this, group);
 		Associations.Hire.link(this, mechanic);
 		Associations.Type.link(this, type);
@@ -79,7 +78,10 @@ public class Contract extends BaseEntity{
 		ArgumentChecks.isNotNull(endDate2);
 	}
 
-	public Optional<Mechanic> getMechanic() { 
+	public Optional<Mechanic> getMechanic() {
+		if(mechanic == null) {
+			return Optional.empty();
+		}
 		return Optional.of(mechanic);
 	}
 

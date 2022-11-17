@@ -4,6 +4,7 @@ import uo.ri.cws.application.ServiceFactory;
 import uo.ri.cws.application.service.client.ClientCrudService;
 import uo.ri.cws.application.service.client.ClientHistoryService;
 import uo.ri.cws.application.service.contract.ContractService;
+import uo.ri.cws.application.service.contract.crud.ContractCrudServiceImpl;
 import uo.ri.cws.application.service.contracttype.ContractTypeService;
 import uo.ri.cws.application.service.contracttype.crud.ContractTypeCrudServiceImpl;
 import uo.ri.cws.application.service.invoice.InvoicingService;
@@ -11,7 +12,9 @@ import uo.ri.cws.application.service.invoice.create.InvoicingServiceImpl;
 import uo.ri.cws.application.service.mechanic.MechanicCrudService;
 import uo.ri.cws.application.service.mechanic.crud.MechanicCrudServiceImpl;
 import uo.ri.cws.application.service.payroll.PayrollService;
+import uo.ri.cws.application.service.payroll.crud.PayrollCrudService;
 import uo.ri.cws.application.service.professionalgroup.ProfessionalGroupService;
+import uo.ri.cws.application.service.professionalgroup.crud.ProfessionalGroupCrudServiceImpl;
 import uo.ri.cws.application.service.sparepart.SparePartCrudService;
 import uo.ri.cws.application.service.vehicle.VehicleCrudService;
 import uo.ri.cws.application.service.vehicle.crud.VehicleCrudServiceImpl;
@@ -74,7 +77,7 @@ public class BusinessFactory implements ServiceFactory {
 
 	@Override
 	public ContractService forContractService() {
-		throw new RuntimeException("Not yet implemented");
+		return new ContractCrudServiceImpl();
 	}
 
 	@Override
@@ -84,12 +87,12 @@ public class BusinessFactory implements ServiceFactory {
 
 	@Override
 	public PayrollService forPayrollService() {
-		throw new RuntimeException("Not yet implemented");
+		return new PayrollCrudService();
 	}
 
 	@Override
 	public ProfessionalGroupService forProfessionalGroupService() {
-		throw new RuntimeException("Not yet implemented");
+		return new ProfessionalGroupCrudServiceImpl();
 	}
 
 }

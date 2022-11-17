@@ -13,6 +13,8 @@ import uo.ri.cws.application.service.invoice.InvoicingService.InvoicingWorkOrder
 import uo.ri.cws.application.service.invoice.InvoicingService.PaymentMeanDto;
 import uo.ri.cws.application.service.invoice.InvoicingService.VoucherDto;
 import uo.ri.cws.application.service.mechanic.MechanicCrudService.MechanicDto;
+import uo.ri.cws.application.service.payroll.PayrollService.PayrollBLDto;
+import uo.ri.cws.application.service.payroll.PayrollService.PayrollSummaryBLDto;
 import uo.ri.cws.application.service.vehicle.VehicleCrudService.VehicleDto;
 import uo.ri.cws.application.service.vehicletype.VehicleTypeCrudService.VehicleTypeDto;
 import uo.ri.cws.domain.Cash;
@@ -22,10 +24,12 @@ import uo.ri.cws.domain.CreditCard;
 import uo.ri.cws.domain.Invoice;
 import uo.ri.cws.domain.Mechanic;
 import uo.ri.cws.domain.PaymentMean;
+import uo.ri.cws.domain.Payroll;
 import uo.ri.cws.domain.Vehicle;
 import uo.ri.cws.domain.VehicleType;
 import uo.ri.cws.domain.Voucher;
 import uo.ri.cws.domain.WorkOrder;
+import uo.ri.util.math.Round;
 
 public class DtoAssembler {
 
@@ -220,6 +224,38 @@ public class DtoAssembler {
 			dto.name = ct.getName();
 			dto.compensationDays = ct.getCompensationDays();
 
+			return dto;
+		}
+
+		public static PayrollBLDto toPayrollBLDto(Payroll payroll) {
+			PayrollBLDto dto = new PayrollBLDto();
+			
+			dto.id = payroll.getId();
+			dto.version = payroll.getVersion();
+			
+			dto.contractId = payroll.getContract().getId();
+			dto.date = payroll.getDate();
+			
+			dto.monthlyWage = payroll.getMonthlyWage();
+			dto.bonus = payroll.getBonus();
+			dto.productivityBonus = payroll.getProductivityBonus();
+			dto.trienniumPayment = payroll.getTrienniumPayment();
+			dto.incomeTax = payroll.getIncomeTax();
+			dto.nic = payroll.getNIC();
+			dto.netWage =Round.twoCents(payroll.getBruteSalary()) - payroll.getIncomeTax() - payroll.getNIC();
+			
+			return dto;
+		}
+
+		public static PayrollSummaryBLDto toPayrollSummaryBLDto(Payroll payroll) {
+			PayrollSummaryBLDto dto = new PayrollSummaryBLDto();
+
+			dto.id = payroll.getId();
+			dto.version = payroll.getVersion();
+			
+			dto.date = payroll.getDate();
+			payroll.calculateTaxes();
+	    	dto.netWage = Round.twoCents(payroll.getBruteSalary()) - payroll.getIncomeTax() - payroll.getNIC();
 			return dto;
 		}
 }

@@ -6,6 +6,7 @@ import uo.ri.cws.application.repository.WorkOrderRepository;
 import uo.ri.cws.domain.WorkOrder;
 import uo.ri.cws.infrastructure.persistence.jpa.util.BaseJpaRepository;
 import uo.ri.cws.infrastructure.persistence.jpa.util.Jpa;
+import uo.ri.util.exception.NotYetImplementedException;
 
 public class WorkOrderJpaRepository 
 		extends BaseJpaRepository<WorkOrder> 
@@ -21,14 +22,12 @@ public class WorkOrderJpaRepository
 
 	@Override
 	public List<WorkOrder> findNotInvoicedWorkOrdersByClientDni(String dni) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotYetImplementedException();
 	}
 
 	@Override
 	public List<WorkOrder> findByMechanic(String mechanic_id) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotYetImplementedException();
 	}
 
 }
